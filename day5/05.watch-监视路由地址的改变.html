@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <!-- 1. 引入路由包 -->
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+</head>
+<body>
+	<div id="app">
+
+        <router-link to="/login">登录</router-link>
+        <router-link to="/register">注册</router-link>
+
+        <!-- 容器 -->
+        <router-view></router-view>
+	</div>
+
+	<script>
+
+        // 2. 创建子组件
+        const login = {
+            template: '<h3>登录子组件</h3>'
+        }
+
+        const register = {
+            template: '<h3>注册子组件</h3>'
+        }
+
+        // 3. 创建路由对象
+        const router = new VueRouter ({
+            // 定义路由规则
+            routes: [
+                {path: '/', redirect: '/login'},
+                {path: '/login', component: login},
+                {path: '/register', component: register}
+            ],
+            // 激活相关的组件属性
+            linkActiveClass: 'myactive'
+        })
+
+		new Vue ({
+			el: '#app',
+			data: {},
+			methods: {},
+            router,
+            watch: {
+                // this.$route.path
+                '$route.path': (newVal, oldVal) => {
+                    // console.log(`${newVal} --- ${oldVal}
+                    newVal === '/login'?console.log('欢迎进入登录页面'):console.log('欢迎进入注册页面')
+                }
+            }
+		})
+
+		Vue.config.devtools = true
+	</script>
+</body>
+</html>

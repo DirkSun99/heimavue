@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<!-- 1. 导入Vue包-->
+	<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+<body>
+	<div id="app">
+
+        <!-- 分析 -->
+        <!-- 1. 监听到文本框数据的改变，这样才能知道什么时候去拼接出一个fullname -->
+        <!-- 2. 如何监听到文本框的数据改变呢？ -->
+        <input type="text" v-model="firstname" @keyup="getFullname"> + 
+        <input type="text" v-model="lastname" @keyup="getFullname"> = 
+        <input type="text" v-model="fullname">
+	</div>
+
+	<script>
+		new Vue ({
+			el: '#app',
+			data: {
+                firstname: '',
+                lastname: '',
+                fullname: ''
+            },
+			methods: {
+                getFullname () {
+                    this.fullname = `${this.firstname}-${this.lastname}`
+                }
+            }
+		})
+
+		Vue.config.devtools = true
+	</script>
+</body>
+</html>

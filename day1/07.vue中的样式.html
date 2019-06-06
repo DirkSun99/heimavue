@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<!-- 1. 导入Vue包-->
+	<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+	<style>
+		.red {
+			color: red;
+		}
+		.thin {
+			font-weight: 200;
+		}
+
+		.italic {
+			font-style: italic;
+		}
+
+		.active {
+			letter-spacing: 0.5em;
+		}
+	</style>
+</head>
+<body>
+	<div id="app">
+		<!-- <h1 class="red thin">这是一个很大很大的H1，大到你无法想象！！！</h1> -->
+		<!-- 1. 直接传递一个数组，注意：这里的class需要使用 v-bind 来做数据绑定 -->
+		<h1 :class="['thin','italic']">这是一个很大很大的H1，大到你无法想象！！！</h1>
+
+		<hr >
+		<!-- 2. 在数组中使用三元表达式 -->
+		<h1 :class="['thin','italic', flag?'active':'']">这是一个很大很大的H1，大到你无法想象！！！</h1>
+
+		<hr>
+		<!-- 3. 在数组中使用对象来代替三元表达式，提高代码的可读性 -->
+		<h1 :class="['thin','italic', {'active': flag}]">这是一个很大很大的H1，大到你无法想象！！！</h1>
+
+		<hr>
+		<!-- 4. 在为class使用v-bind绑定对象的时候，对象的属性名是类名，对象的属性可带引号也可不带，属性的值是一个标识符 -->
+		<h1 :class="classObj">这是一个很大很大的H1，大到你无法想象！！！</h1>
+	</div>
+
+	<script>
+		new Vue ({
+			el: '#app',
+			data: {
+				flag: true,
+				classObj: {red: true, thin: true, italic: false, active: false}
+			},
+			methods: {}
+		})
+	</script>
+</body>
+</html>

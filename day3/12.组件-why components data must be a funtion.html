@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<!-- 1. 导入Vue包-->
+	<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+<body>
+	<div id="app">
+        <counter></counter>
+        <hr>
+        <counter></counter>
+        <hr>
+        <counter></counter>
+	</div>
+
+    <template id="tmp1">
+        <div>
+            <input type="button" value="+1" @click="increment">
+            <h3>{{count}}</h3>
+        </div>
+    </template>
+	<script>
+        var dataObj = {count: 0}
+        // 这是一个计数器的组件，身上有个按钮，每当点击按钮，让data中的count值+1
+        Vue.component('counter', {
+            template: '#tmp1',
+            // data定义为一个函数的好处是组件在多次引用的时候不会共享数据
+            data: function() {
+                // return dataObj
+                return {count: 0}
+            },
+            methods: {
+                increment() {
+                    this.count++
+                }
+            }
+        })
+
+		new Vue ({
+			el: '#app',
+			data: {},
+			methods: {}
+		})
+	</script>
+</body>
+</html>

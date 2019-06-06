@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<!-- 1. 导入Vue包-->
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <!-- 入场使用 bounceIn 离场使用bounceOut -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+</head>
+<body>
+	<div id="app">
+        <input type="button" value="toggle" @click="flag=!flag">
+		<!-- 需求：点击按钮，让h3显示，再点击，让h3隐藏 -->
+        <!-- 使用 :duration="毫秒值" 来统一设置入场和离场时候的动画时长 -->
+        <!-- 使用 :duration="{enter: 200, leave: 400} 来分别设置入场的时长和离场的时长" -->
+        <transition enter-active-class="bounceIn" leave-active-class="bounceOut" :duration="{enter: 200, leave: 400}">
+			<h3 v-if="flag" class="animated">这是一个H3</h3>
+		</transition>
+	</div>
+
+	<script>
+		new Vue ({
+			el: '#app',
+			data: {
+                flag: false
+            },
+			methods: {}
+		})
+	</script>
+</body>
+</html>

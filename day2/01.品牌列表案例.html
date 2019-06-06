@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<!-- 1. 导入Vue包-->
+	<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">	
+</head>
+<body>
+	<div id="app">
+
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<h3 class="panel-title">添加品牌</h3>
+			</div>
+			<div class="panel-body form-inline">
+				<label>Id: <input type="text" class="form-control" v-model="id"></label>
+
+				<label>Name: <input type="text" class="form-control" v-model="name"></label>
+				
+				<!-- 在vue中，使用事件绑定机制，为元素指定处理函数的时候，如果加了小括号，就可以给函数传参了 -->
+				<input type="button" value="添加" class="btn btn-primary" @click="add()">
+
+				<label>
+					搜索名称关键字：
+					<input type="text" class="form-control" v-model="keywords">
+				</label>
+			</div>
+		</div>
+
+		<table class="table table-bordered table-hover table-striped">
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Name</th>
+					<th>Ctime</th>
+					<th>Operation</th>
+				</tr>
+			</thead>
+			<tobdy>
+				<!-- 之前v-for中的数据，都是直接从data上的list中渲染过来的，现在自定义了一个search方法，同时把所有的关键字通过传参的方式传递给了search方法 -->
+				<!-- 在 search 方法内部，通过执行for循环，把所有符合搜索关键字的数据保存到一个新数组中返回 -->
+				<tr v-for="item in search(keywords)" :key="item.id">
+					<td>{{item.id}}</td>
+					<td v-text="item.name" />
+					<td>{{item.ctime}}</td>
+					<td>
+						<a href="" @click.prevent="del(item.id)">删除</a>
+					</td>
+				</tr>
+			</tobdy>
+		</table>
+	</div>
+
+	<script>
+		new Vue ({
+			el: '#app',
+			data: {
+				list: [
+					{id: 1, name: '奔驰', ctime: new Date()},
+					{id: 2, name: '宝马', ctime: new Date()}
+				],
+				id: '',
+				name: '',
+				keywords: ''
+			},
+			methods: {
+				add () { // 添加的方法
+					// 1. 获取到id和name，直接从data上面获取
+					// 2. 组织一个对象
+					// 3. 把这个对象，调用数组的相关方法，添加到当前data上的list中
+					// 4. 注意：在vue中，已经实现了数据的双向绑定，每当修改了data中的数据，vue会默认监听到数据的改动，自动把最新的数据应用到页面上
+					// 5. 当我们意识到上面的第四的时候，就证明已经入门vue了，我们更多的是在进行VM中Model数据的操作，同时，在操作Model数据的时候执行的业务逻辑操作
+
+					var car = {id: this.id, name: this.name, ctime: new Date()}
+					this.list.push(car)
+					this.id=this.name=''
+				},
+				del (id) { // 根据id删除数据
+					// 1. 如何根据id找到要删除这一项的索引
+					// 2. 如果找到了索引，直接调用数组的splice方法
+
+					/** 方法一，使用数组的some方法
+					this.list.some((item, i) => {
+						if (item.id === id) {
+							this.list.splice(i, 1)
+							// 在数组的some方法中，如果return true就会立即终止这个数组的后续循环
+							return true
+						}
+					})
+					**/
+					// 方法二，使用findIndex方法，快速查找索引
+					var index = this.list.findIndex(item => {
+						if (item.id === id) {
+							return true
+						}
+					})
+
+					this.list.splice(index, 1)
+				},
+				search (keywords) { // 根据关键字进行数据的检索
+
+					/** 方法一，使用forEach及indexOf
+					var newList = []
+					this.list.forEach(item => {
+						if (item.name.indexOf(keywords) != -1) {
+							newList.push(item)
+						}
+					})
+					return newList
+					**/
+
+					// 方法二，使用filter及includes方法
+					// 注意：ES6中，为字符串提供了一个新方法，叫做String.prototype.includes['要包含的字符串']
+					// 如果包含，则返回true, 否则返回false
+					return this.list.filter(item => item.name.includes(keywords))
+				}
+			}
+		})
+
+		Vue.config.devtools = true;
+	</script>
+</body>
+</html>

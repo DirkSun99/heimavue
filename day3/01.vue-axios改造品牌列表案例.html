@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<!-- 1. 导入Vue包-->
+	<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">	
+</head>
+<body>
+	<div id="app">
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<h3 class="panel-title">添加品牌</h3>
+			</div>
+			<div class="panel-body form-inline">
+				<!-- <label>Id: <input type="text" v-model="id"></label> -->
+				<label>Name: <input type="text" v-model="name" class="form-control"></label>
+
+				<input type="button" value="添加" @click="add" class="form-control btn btn-primary">
+			</div>
+		</div>
+
+		<table class="table table-bordered table-hover table-striped">
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Name</th>
+					<th>Ctime</th>
+					<th>Operation</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr v-for="item in list" :key="item.id">
+					<td>{{item.id}}</td>
+					<td>{{item.name}}</td>
+					<td>{{item.ctime}}</td>
+					<td><a href="" @click.prevent="del(item.id)">删除</a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<script>
+		axios.defaults.baseURL = 'http://localhost:3000'
+
+		new Vue ({
+			el: '#app',
+			data: {
+				list: [ // 存放所有品牌数据
+					{id: 1, name: '五菱宏光', ctime: new Date()},
+					{id: 2, name: '众泰', ctime: new Date()}
+				],
+				name: ''
+			},
+			methods: {
+				add () { // 添加品牌列表到后台服务器
+					// 分析：
+					// 1. 经过查看数据API接口，发现要发送一个POST请求
+					axios.post("/products", {name: this.name, ctime: new Date()}).then(result => {
+						// 刷新品牌列表
+						this.getAllList()
+						this.name = ''
+					})
+				},
+				getAllList () { // 获取所有的品牌列表
+					 // 分析
+					 // 1. 通过axios发起数据请求
+					 // 2. 根据接口API文档，获取列表的时候发起get请求
+					 // 3. 解析结果
+					axios.get("/products").then(result => {
+						// 成功了
+						this.list = result.data
+						// if (result.data.status === 0) {
+						// 	this.list = result.data.message
+						// } else {
+						// 	// 失败了
+						// 	alert('获取数据失败')
+						// }
+					})
+				},
+				del (id) { // 删除品牌
+					axios.delete(`/products/${id}`).then(result => {
+						this.getAllList()
+					})
+				}
+			},
+			created () { // 当 vm 实例的 data 和 methods 初始化完毕后， vm实例会自动执行 created 这个生命周期函数
+				this.getAllList()
+			}
+		})
+	</script>
+</body>
+</html>

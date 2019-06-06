@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<!-- 1. 导入Vue包-->
+	<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+<body>
+	<div id="app">
+		<com1 :parentmsg="msg" @func="getMsgFromSon"></com1>
+	</div>
+
+    <template id="tmp1">
+        <div>
+            <h1>这是子元素 --- {{parentmsg}}</h1>
+            <input type="button" value="向父组件传递消息" @click="sendMsg">
+        </div>
+    </template>
+	<script>
+
+        const com1 = {
+            template: '#tmp1',
+            props: ['parentmsg'],
+            data () {
+                return {
+                    msg: '做一个孝顺的孩子，给爸爸一些钱去挥霍吧'
+                }
+            },
+            methods: {
+                sendMsg () {
+                    this.$emit('func', this.msg)
+                }
+            }
+        }
+		new Vue ({
+			el: '#app',
+			data: {
+                msg: '这是父组件的数据',
+                msgFromSon: ''
+            },
+			methods: {
+                getMsgFromSon (data) {
+                    this.msgFromSon = data
+                    console.log(this.msgFromSon)
+                }
+            },
+            components: {
+                com1
+            }
+		})
+
+		Vue.config.devtools = true
+	</script>
+</body>
+</html>

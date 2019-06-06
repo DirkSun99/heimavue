@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<!-- 1. 导入Vue包-->
+	<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+<body>
+	<div id="app">
+
+        <input type="text" v-model="firstname"> + 
+        <input type="text" v-model="lastname"> = 
+        <input type="text" v-model="fullname">
+	</div>
+
+	<script>
+		new Vue ({
+			el: '#app',
+			data: {
+                firstname: '',
+                lastname: '',
+                fullname: ''
+            },
+			methods: {},
+            watch: { // 使用这个属性可以监视 data 中指定数据的变化，然后触发这个 watch 中对应的 function 处理函数
+                'firstname': function (newVal, oldVal) {
+                    // console.log('监视到了 firstname 的变化')
+                    // this.fullname = `${this.firstname}-${this.lastname}`
+                    // console.log(`${newVal} --- ${oldVal}`)
+                    this.fullname = `${newVal}-${this.lastname}`
+                },
+                'lastname': function (newVal) {
+                    this.fullname = `${this.firstname}-${newVal}`
+                }
+            }
+		})
+
+		Vue.config.devtools = true
+	</script>
+</body>
+</html>
