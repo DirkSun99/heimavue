@@ -8,12 +8,12 @@
 </head>
 <body>
 	<div id="app">
-        <mycom3 />
+        <mycom3></mycom3>
 	</div>
 
 	<div id="app2">
-		<mycom3 />
-		<login />
+		<mycom3></mycom3>
+		<login></login>
 	</div>
     <!-- 在被控制的 #app 外面，使用 template元素定义组件的HTML模板结构 -->
     <template id="tmp1">
@@ -21,11 +21,12 @@
             <h1>这是通过 template 元素，在外部定义的组件结构，这个方式有代码的提示和高亮</h1>
             <h4>好用，不错，赞</h4>
         </div>
-	</template id="tmp2">
-		<h1>这是私有的login组件</h1>
-	<template>
-
 	</template>
+
+	<template id="tmp2">
+		<h1>这是私有的login组件</h1>
+	</template>
+
 	<script>
         Vue.component('mycom3', {
             template: '#tmp1'

@@ -34,7 +34,7 @@
                 beforeEnter (el) {
                     el.style.transform = 'translate(0,0)'
                 },
-                enter (el) {
+                enter (el, done) {
                     el.offsetWidth
 
                     el.style.transform = 'translate(150px,450px)'
