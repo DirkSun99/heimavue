@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<!-- 1. 导入Vue包-->
+	<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+<body>
+	<div id="app">
+        <p>333</p>
+		<login></login>
+	</div>
+
+	<script>
+
+        const login = {
+            template: '<h1>这是登录组件</h1>'
+        }
+
+		new Vue ({
+			el: '#app',
+			data: {},
+            methods: {},
+            components: {
+                login
+            }
+		})
+
+		Vue.config.devtools = true
+	</script>
+</body>
+</html>
